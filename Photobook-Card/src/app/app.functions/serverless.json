@@ -1,0 +1,14 @@
+{
+  "runtime": "nodejs16.x",
+  "version": "1.0",
+  "appFunctions": {
+    "verifyRequiredProperties": {
+      "file": "verifyRequiredProperties.js",
+      "secrets": []
+    },
+    "updateContact": {
+      "file": "updateContact.js",
+      "secrets": []
+    }
+  }
+}

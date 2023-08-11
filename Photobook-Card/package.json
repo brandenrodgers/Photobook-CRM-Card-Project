@@ -1,0 +1,11 @@
+{
+  "name": "photobook-card",
+  "version": "0.1.0",
+  "description": "Photobook pcard project",
+  "scripts": {
+    "postinstall": "cd ./src/app/extensions/ && npm install"
+  },
+  "author": "HubSpot",
+  "license": "MIT",
+  "homepage": "https://github.com/HubSpot/ui-extensions-react-examples#readme"
+}

@@ -1,0 +1,12 @@
+{
+  "type": "crm-card",
+  "data": {
+    "title": "Photobook",
+    "uid": "get_started_card",
+    "location": "crm.record.tab",
+    "module": {
+      "file": "Photobook.jsx"
+    },
+    "objectTypes": [{ "name": "contacts" }]
+  }
+}

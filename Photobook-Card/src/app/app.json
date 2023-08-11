@@ -1,0 +1,20 @@
+{
+  "name": "Photobook App",
+  "description": "This is an example of private app that shows a photobook custom card on the Contact record tab.",
+  "uid": "photobook_app",
+  "scopes": [
+    "crm.objects.contacts.read",
+    "crm.objects.contacts.write",
+    "crm.schemas.contacts.write"
+  ],
+  "public": false,
+  "extensions": {
+    "crm": {
+      "cards": [
+        {
+          "file": "extensions/photobook-card.json"
+        }
+      ]
+    }
+  }
+}
