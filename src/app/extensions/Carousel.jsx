@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Box, Flex, Image, ProgressBar } from "@hubspot/ui-extensions";
+import { Box, Divider, Flex, Image, ProgressBar } from "@hubspot/ui-extensions";
 
 const Carousel = ({ photobookImages }) => {
   const [imageOrder, setImageOrder] = useState(photobookImages);
@@ -23,7 +23,7 @@ const Carousel = ({ photobookImages }) => {
           imageOrder[0],
         ]);
       } else {
-        setRotationCounter(rotationCounter + 10);
+        setRotationCounter(rotationCounter + 5);
       }
     }, 500);
 
@@ -31,31 +31,35 @@ const Carousel = ({ photobookImages }) => {
   }, [photobookImages, rotationCounter]);
 
   return (
-    <>
-      <Flex direction="row" justify="center" align="center">
-        {imageOrder.slice(0, 3).map((imageUrl, i) => {
-          if (i === 1) {
+    <Flex direction="column" gap="medium">
+      <Divider distance="flush" />
+      <Flex direction="column">
+        <Flex direction="row" justify="center" align="center">
+          {imageOrder.slice(0, 3).map((imageUrl, i) => {
+            if (i === 1) {
+              return (
+                <Box flex={2}>
+                  <Image src={imageUrl} alt={imageUrl} />
+                </Box>
+              );
+            }
             return (
-              <Box flex={2}>
-                <Image src={imageUrl} alt={imageUrl} />
+              <Box flex={1}>
+                <Image src={imageUrl} alt="Unable to load image" />
               </Box>
             );
-          }
-          return (
-            <Box flex={1}>
-              <Image src={imageUrl} alt="Unable to load image" />
-            </Box>
-          );
-        })}
+          })}
+        </Flex>
+        {imageOrder.length > 1 ? (
+          <ProgressBar
+            variant="success"
+            value={rotationCounter}
+            showPercentage={false}
+          />
+        ) : null}
+        <Divider distance="flush" />
       </Flex>
-      {imageOrder.length > 1 ? (
-        <ProgressBar
-          variant="success"
-          value={rotationCounter}
-          showPercentage={false}
-        />
-      ) : null}
-    </>
+    </Flex>
   );
 };
 

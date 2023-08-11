@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button, Box, Form, Select } from "@hubspot/ui-extensions";
+import { Button, Box, Form, Image, Select } from "@hubspot/ui-extensions";
 
-const MAX_SELECT_LABEL_LENGTH = 40;
+const MAX_SELECT_LABEL_LENGTH = 50;
 
 const RemoveImageInputs = ({ photobookImages, runServerless, refresh }) => {
   const [imageToRemove, setImageToRemove] = useState(null);
@@ -56,6 +56,9 @@ const RemoveImageInputs = ({ photobookImages, runServerless, refresh }) => {
           }))}
         />
       </Form>
+      {imageToRemove ? (
+        <Image src={imageToRemove} alt={imageToRemove} width={75} />
+      ) : null}
       <Box alignSelf="start">
         <Button
           onClick={handleRemoveImage}
