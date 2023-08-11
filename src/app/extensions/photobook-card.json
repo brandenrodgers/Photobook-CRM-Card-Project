@@ -2,7 +2,7 @@
   "type": "crm-card",
   "data": {
     "title": "Photobook",
-    "uid": "get_started_card",
+    "uid": "photobook_card",
     "location": "crm.record.tab",
     "module": {
       "file": "Photobook.jsx"

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Photobook pcard project",
   "scripts": {
-    "postinstall": "cd ./src/app/extensions/ && npm install"
+    "postinstall": "cd ./src/app/extensions/ && npm install; cd ../app.functions/ && npm install"
   },
   "author": "HubSpot",
   "license": "MIT",
