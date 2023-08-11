@@ -36,16 +36,9 @@ const Carousel = ({ photobookImages }) => {
       <Flex direction="column">
         <Flex direction="row" justify="center" align="center">
           {imageOrder.slice(0, 3).map((imageUrl, i) => {
-            if (i === 1) {
-              return (
-                <Box flex={2}>
-                  <Image src={imageUrl} alt={imageUrl} />
-                </Box>
-              );
-            }
             return (
-              <Box flex={1}>
-                <Image src={imageUrl} alt="Unable to load image" />
+              <Box flex={i === 1 ? 2 : 1}>
+                <Image src={imageUrl} alt={imageUrl} />
               </Box>
             );
           })}
