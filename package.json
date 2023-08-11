@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "description": "Photobook pcard project",
   "scripts": {
-    "postinstall": "cd ./src/app/extensions/ && npm install; cd ../app.functions/ && npm install"
+    "postinstall": "cd ./src/app/extensions/ && npm install; cd ../app.functions/ && npm install",
+    "format": "prettier . --write"
   },
   "author": "HubSpot",
   "license": "MIT",
-  "homepage": "https://github.com/HubSpot/ui-extensions-react-examples#readme"
+  "homepage": "https://github.com/HubSpot/ui-extensions-react-examples#readme",
+  "devDependencies": {
+    "eslint": "^8.47.0",
+    "prettier": "3.0.1"
+  }
 }

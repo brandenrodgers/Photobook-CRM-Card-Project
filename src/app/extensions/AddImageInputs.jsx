@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Button, Box, Form, Input } from '@hubspot/ui-extensions';
+import React, { useState } from "react";
+import { Button, Box, Form, Input } from "@hubspot/ui-extensions";
 
 const AddImageInputs = ({ runServerless, refresh }) => {
-  const [imageToAdd, setImageToAdd] = useState('');
+  const [imageToAdd, setImageToAdd] = useState("");
   const [addImageLoading, setAddImageLoading] = useState(false);
   const [addImageError, setAddImageError] = useState(false);
 
@@ -11,11 +11,11 @@ const AddImageInputs = ({ runServerless, refresh }) => {
 
     if (imageToAdd) {
       setAddImageLoading(true);
-      setImageToAdd('');
+      setImageToAdd("");
       runServerless({
-        name: 'updateContact',
+        name: "updateContact",
         parameters: { imageToAdd },
-        propertiesToSend: ['hs_object_id'],
+        propertiesToSend: ["hs_object_id"],
       }).then(({ response: succeeded }) => {
         setAddImageLoading(false);
         if (succeeded) {
@@ -34,9 +34,9 @@ const AddImageInputs = ({ runServerless, refresh }) => {
           label="Add an image"
           description="Enter an image to appear in the carousel"
           error={addImageError}
-          validationMessage={addImageError ? 'Failed to add image.' : null}
-          value={imageToAdd || ''}
-          onInput={value => {
+          validationMessage={addImageError ? "Failed to add image." : null}
+          value={imageToAdd || ""}
+          onInput={(value) => {
             setImageToAdd(value);
           }}
         />
@@ -46,7 +46,7 @@ const AddImageInputs = ({ runServerless, refresh }) => {
           onClick={handleAddImage}
           disabled={!imageToAdd || addImageLoading}
         >
-          {addImageLoading ? 'Adding' : 'Add'}
+          {addImageLoading ? "Adding" : "Add"}
         </Button>
       </Box>
     </>

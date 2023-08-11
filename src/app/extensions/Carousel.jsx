@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Box, Flex, Image, ProgressBar } from '@hubspot/ui-extensions';
+import React, { useEffect, useState, useRef } from "react";
+import { Box, Flex, Image, ProgressBar } from "@hubspot/ui-extensions";
 
 const Carousel = ({ photobookImages }) => {
   const [imageOrder, setImageOrder] = useState(photobookImages);

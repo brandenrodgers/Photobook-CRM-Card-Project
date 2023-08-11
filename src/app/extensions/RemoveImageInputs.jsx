@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Box, Form, Select } from '@hubspot/ui-extensions';
+import React, { useState } from "react";
+import { Button, Box, Form, Select } from "@hubspot/ui-extensions";
 
 const MAX_SELECT_LABEL_LENGTH = 40;
 
@@ -15,9 +15,9 @@ const RemoveImageInputs = ({ photobookImages, runServerless, refresh }) => {
       setRemoveImageLoading(true);
       setImageToRemove(null);
       runServerless({
-        name: 'updateContact',
+        name: "updateContact",
         parameters: { imageToRemove },
-        propertiesToSend: ['hs_object_id'],
+        propertiesToSend: ["hs_object_id"],
       }).then(({ response: succeeded }) => {
         setRemoveImageLoading(false);
         if (succeeded) {
@@ -36,15 +36,15 @@ const RemoveImageInputs = ({ photobookImages, runServerless, refresh }) => {
           label="Remove an image"
           description="Select an image to remove from the carousel"
           error={removeImageError}
-          validationMessage={removeImageError ? 'Failed to remove image' : null}
+          validationMessage={removeImageError ? "Failed to remove image" : null}
           value={imageToRemove}
-          onChange={value => {
+          onChange={(value) => {
             setImageToRemove(value);
           }}
-          options={photobookImages.map(image => ({
+          options={photobookImages.map((image) => ({
             label:
               image.length > MAX_SELECT_LABEL_LENGTH
-                ? image.slice(0, MAX_SELECT_LABEL_LENGTH - 1) + '...'
+                ? image.slice(0, MAX_SELECT_LABEL_LENGTH - 1) + "..."
                 : image,
             value: image,
           }))}
@@ -55,7 +55,7 @@ const RemoveImageInputs = ({ photobookImages, runServerless, refresh }) => {
           onClick={handleRemoveImage}
           disabled={!imageToRemove || removeImageLoading}
         >
-          {removeImageLoading ? 'Removing' : 'Remove'}
+          {removeImageLoading ? "Removing" : "Remove"}
         </Button>
       </Box>
     </>

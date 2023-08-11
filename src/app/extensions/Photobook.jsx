@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   EmptyState,
   ErrorState,
@@ -6,9 +6,9 @@ import {
   LoadingSpinner,
   Text,
   hubspot,
-} from '@hubspot/ui-extensions';
-import Carousel from './Carousel';
-import Menu from './Menu';
+} from "@hubspot/ui-extensions";
+import Carousel from "./Carousel";
+import Menu from "./Menu";
 
 hubspot.extend(({ runServerlessFunction, actions }) => (
   <Photobook
@@ -19,7 +19,7 @@ hubspot.extend(({ runServerlessFunction, actions }) => (
 
 const Photobook = ({ runServerless, fetchCrmObjectProperties }) => {
   const [photobookImages, setPhotobookImages] = useState([]);
-  const [contactName, setContactName] = useState('');
+  const [contactName, setContactName] = useState("");
   const [loading, setLoading] = useState(true);
   const [doesNotHaveProperties, setDoesNotHaveProperties] = useState(false);
 
@@ -28,36 +28,36 @@ const Photobook = ({ runServerless, fetchCrmObjectProperties }) => {
   }, []);
 
   const init = () => {
-    runServerless({ name: 'verifyRequiredProperties' }).then(
+    runServerless({ name: "verifyRequiredProperties" }).then(
       ({ response: hasRequiredProperties }) => {
         if (hasRequiredProperties) {
           fetchRequiredContactProperties();
         } else {
           setDoesNotHaveProperties(true);
-          fetchCrmObjectProperties(['firstname']).then(({ firstname }) => {
+          fetchCrmObjectProperties(["firstname"]).then(({ firstname }) => {
             setLoading(false);
             setContactName(firstname);
           });
         }
-      }
+      },
     );
   };
 
   const fetchRequiredContactProperties = () => {
-    fetchCrmObjectProperties(['firstname', 'photobook_images']).then(
+    fetchCrmObjectProperties(["firstname", "photobook_images"]).then(
       ({ firstname, photobook_images }) => {
         if (!contactName) {
           setContactName(firstname);
         }
         if (photobook_images) {
-          setPhotobookImages(photobook_images.split(','));
+          setPhotobookImages(photobook_images.split(","));
         } else if (photobookImages.length) {
           setPhotobookImages([]);
         }
         if (loading) {
           setLoading(false);
         }
-      }
+      },
     );
   };
 
@@ -98,8 +98,8 @@ const Photobook = ({ runServerless, fetchCrmObjectProperties }) => {
   return (
     <>
       <Flex justify="center">
-        <Text format={{ fontWeight: 'bold' }}>
-          Photobook for{contactName ? ` ${contactName}` : '...'}
+        <Text format={{ fontWeight: "bold" }}>
+          Photobook for{contactName ? ` ${contactName}` : "..."}
         </Text>
       </Flex>
       {renderContent()}

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Button, Box, Flex, Link } from '@hubspot/ui-extensions';
-import AddImageInputs from './AddImageInputs';
-import RemoveImageInputs from './RemoveImageInputs';
+import React, { useState } from "react";
+import { Button, Flex, Link } from "@hubspot/ui-extensions";
+import AddImageInputs from "./AddImageInputs";
+import RemoveImageInputs from "./RemoveImageInputs";
 
 const OPTIONS_ACTIONS = {
-  add: 'add',
-  remove: 'remove',
+  add: "add",
+  remove: "remove",
 };
 
 const Menu = ({ photobookImages, runServerless, refresh }) => {
@@ -51,7 +51,7 @@ const Menu = ({ photobookImages, runServerless, refresh }) => {
   return (
     <Flex direction="column" gap="small">
       <Link onClick={toggleOptionsDrawerOpen}>
-        {optionsDrawerOpen ? 'Collapse options ^' : 'Options'}
+        {optionsDrawerOpen ? "Collapse options ^" : "Options"}
       </Link>
       {!!optionsAction ? (
         <Link onClick={() => setOptionsAction(null)}>{`< back`}</Link>

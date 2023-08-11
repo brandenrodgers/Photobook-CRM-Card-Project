@@ -1,23 +1,23 @@
-const axios = require('axios');
+const axios = require("axios");
 
 exports.main = async (context = {}, sendResponse) => {
   const { PRIVATE_APP_ACCESS_TOKEN } = context.secrets;
   const { hs_object_id } = context.propertiesToSend;
   const { imageToAdd, imageToRemove } = context.parameters;
 
-  const PHOTOBOOK_IMAGES_PROPERTY = 'photobook_images';
+  const PHOTOBOOK_IMAGES_PROPERTY = "photobook_images";
 
-  let currentPhotobookImages = '';
+  let currentPhotobookImages = "";
 
   try {
     const { data } = await fetchPropertyForContact(
       PRIVATE_APP_ACCESS_TOKEN,
       hs_object_id,
-      PHOTOBOOK_IMAGES_PROPERTY
+      PHOTOBOOK_IMAGES_PROPERTY,
     );
 
     if (data && data.properties && data.properties.photobook_images) {
-      currentPhotobookImages = data.properties.photobook_images.value || '';
+      currentPhotobookImages = data.properties.photobook_images.value || "";
     }
   } catch (error) {
     console.log(error);
@@ -30,7 +30,7 @@ exports.main = async (context = {}, sendResponse) => {
   } else if (imageToRemove) {
     newPhotobookImages = handleRemoveImage(
       currentPhotobookImages,
-      imageToRemove
+      imageToRemove,
     );
   } else {
     sendResponse(false);
@@ -44,7 +44,7 @@ exports.main = async (context = {}, sendResponse) => {
     await updatePropertyForContact(
       PRIVATE_APP_ACCESS_TOKEN,
       hs_object_id,
-      updatedProperty
+      updatedProperty,
     );
   } catch (error) {
     console.log(error);
@@ -91,10 +91,10 @@ const fetchPropertyForContact = (token, id, property) => {
     `https://api.hubapi.com/contacts/v1/contact/vid/${id}/profile?property=${property}`,
     {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 };
 
@@ -105,9 +105,9 @@ const updatePropertyForContact = (token, id, property) => {
     { properties: [property] },
     {
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 };
