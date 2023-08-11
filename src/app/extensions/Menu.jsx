@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Flex, Link } from "@hubspot/ui-extensions";
 import AddImageInputs from "./AddImageInputs";
 import RemoveImageInputs from "./RemoveImageInputs";
@@ -11,6 +11,14 @@ const OPTIONS_ACTIONS = {
 const Menu = ({ photobookImages, runServerless, refresh }) => {
   const [optionsDrawerOpen, setOptionsDrawerOpen] = useState(false);
   const [optionsAction, setOptionsAction] = useState(null);
+
+  useEffect(() => {
+    // Navigate back to the main options level when there are no more photos. This
+    // means the user just removed the last one and there is nothing else to remove
+    if (!photobookImages.length) {
+      setOptionsAction(null);
+    }
+  }, [photobookImages]);
 
   const toggleOptionsDrawerOpen = () => {
     setOptionsDrawerOpen(!optionsDrawerOpen);

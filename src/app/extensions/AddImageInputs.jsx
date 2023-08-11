@@ -16,12 +16,14 @@ const AddImageInputs = ({ runServerless, refresh }) => {
         name: "updateContact",
         parameters: { imageToAdd },
         propertiesToSend: ["hs_object_id"],
-      }).then(({ response: succeeded }) => {
+      }).then(({ response }) => {
+        const { success, error } = response;
+
         setAddImageLoading(false);
-        if (succeeded) {
+        if (success) {
           refresh();
         } else {
-          setAddImageError(true);
+          setAddImageError(error);
         }
       });
     }
@@ -33,8 +35,10 @@ const AddImageInputs = ({ runServerless, refresh }) => {
         <Input
           label="Add an image"
           description="Enter an image to appear in the carousel"
-          error={addImageError}
-          validationMessage={addImageError ? "Failed to add image." : null}
+          error={!!addImageError}
+          validationMessage={
+            addImageError ? `Failed to add image: ${addImageError}` : null
+          }
           value={imageToAdd || ""}
           onInput={(value) => {
             setImageToAdd(value);

@@ -37,13 +37,13 @@ const Carousel = ({ photobookImages }) => {
           if (i === 1) {
             return (
               <Box flex={2}>
-                <Image src={imageUrl} />
+                <Image src={imageUrl} alt={imageUrl} />
               </Box>
             );
           }
           return (
             <Box flex={1}>
-              <Image src={imageUrl} />
+              <Image src={imageUrl} alt="Unable to load image" />
             </Box>
           );
         })}

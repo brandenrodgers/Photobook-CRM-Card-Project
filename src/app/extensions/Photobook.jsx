@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Button,
   EmptyState,
   ErrorState,
   Flex,
@@ -21,43 +22,47 @@ const Photobook = ({ runServerless, fetchCrmObjectProperties }) => {
   const [photobookImages, setPhotobookImages] = useState([]);
   const [contactName, setContactName] = useState("");
   const [loading, setLoading] = useState(true);
-  const [doesNotHaveProperties, setDoesNotHaveProperties] = useState(false);
+  const [doesNotHaveProperty, setDoesNotHaveProperty] = useState(false);
 
   useEffect(() => {
-    init();
+    fetchCrmObjectProperties(["firstname"]).then(({ firstname }) => {
+      setContactName(firstname);
+    });
+
+    runServerless({ name: "verifyRequiredProperty" }).then(
+      processRequiredPropertyResponse
+    );
   }, []);
 
-  const init = () => {
-    runServerless({ name: "verifyRequiredProperties" }).then(
-      ({ response: hasRequiredProperties }) => {
-        if (hasRequiredProperties) {
-          fetchRequiredContactProperties();
-        } else {
-          setDoesNotHaveProperties(true);
-          fetchCrmObjectProperties(["firstname"]).then(({ firstname }) => {
-            setLoading(false);
-            setContactName(firstname);
-          });
-        }
-      },
+  const createRequiredProperty = () => {
+    setLoading(true);
+    runServerless({ name: "createRequiredProperty" }).then(
+      processRequiredPropertyResponse
     );
   };
 
-  const fetchRequiredContactProperties = () => {
-    fetchCrmObjectProperties(["firstname", "photobook_images"]).then(
-      ({ firstname, photobook_images }) => {
-        if (!contactName) {
-          setContactName(firstname);
-        }
+  const processRequiredPropertyResponse = ({
+    response: hasRequiredProperty,
+  }) => {
+    if (hasRequiredProperty) {
+      setDoesNotHaveProperty(false);
+      fetchRequiredPropery();
+    } else {
+      setDoesNotHaveProperty(true);
+      setLoading(false);
+    }
+  };
+
+  const fetchRequiredPropery = () => {
+    fetchCrmObjectProperties(["photobook_images"]).then(
+      ({ photobook_images }) => {
         if (photobook_images) {
           setPhotobookImages(photobook_images.split(","));
         } else if (photobookImages.length) {
           setPhotobookImages([]);
         }
-        if (loading) {
-          setLoading(false);
-        }
-      },
+        setLoading(false);
+      }
     );
   };
 
@@ -69,15 +74,19 @@ const Photobook = ({ runServerless, fetchCrmObjectProperties }) => {
         </Flex>
       );
     }
-    if (doesNotHaveProperties) {
+    if (doesNotHaveProperty) {
       return (
         <ErrorState
-          title="Missing required properties"
+          title="Missing required property"
           layout="vertical"
           reverseOrder={true}
         >
-          <Text>Unable to create the required properties</Text>
-          <Button onClick={init}>Try again</Button>
+          <Text>
+            This CRM card requires the "photobook_images" contact property
+          </Text>
+          <Button onClick={createRequiredProperty} variant="primary">
+            Create property
+          </Button>
         </ErrorState>
       );
     }
@@ -103,11 +112,13 @@ const Photobook = ({ runServerless, fetchCrmObjectProperties }) => {
         </Text>
       </Flex>
       {renderContent()}
-      <Menu
-        photobookImages={photobookImages}
-        runServerless={runServerless}
-        refresh={fetchRequiredContactProperties}
-      />
+      {doesNotHaveProperty ? null : (
+        <Menu
+          photobookImages={photobookImages}
+          runServerless={runServerless}
+          refresh={fetchRequiredPropery}
+        />
+      )}
     </>
   );
 };

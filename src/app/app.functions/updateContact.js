@@ -13,14 +13,15 @@ exports.main = async (context = {}, sendResponse) => {
     const { data } = await fetchPropertyForContact(
       PRIVATE_APP_ACCESS_TOKEN,
       hs_object_id,
-      PHOTOBOOK_IMAGES_PROPERTY,
+      PHOTOBOOK_IMAGES_PROPERTY
     );
 
     if (data && data.properties && data.properties.photobook_images) {
       currentPhotobookImages = data.properties.photobook_images.value || "";
     }
   } catch (error) {
-    console.log(error);
+    sendResponse({ success: false, error: getErrorMessage(error) });
+    return;
   }
 
   let newPhotobookImages;
@@ -30,10 +31,11 @@ exports.main = async (context = {}, sendResponse) => {
   } else if (imageToRemove) {
     newPhotobookImages = handleRemoveImage(
       currentPhotobookImages,
-      imageToRemove,
+      imageToRemove
     );
   } else {
-    sendResponse(false);
+    sendResponse({ success: false, error: "Unknown serverless action" });
+    return;
   }
 
   try {
@@ -44,14 +46,26 @@ exports.main = async (context = {}, sendResponse) => {
     await updatePropertyForContact(
       PRIVATE_APP_ACCESS_TOKEN,
       hs_object_id,
-      updatedProperty,
+      updatedProperty
     );
   } catch (error) {
-    console.log(error);
-    sendResponse(false);
+    sendResponse({ success: false, error: getErrorMessage(error) });
+    return;
   }
 
-  sendResponse(true);
+  sendResponse({ success: true });
+};
+
+const getErrorMessage = (error) => {
+  if (
+    error &&
+    error.response &&
+    error.response.data &&
+    error.response.data.message
+  ) {
+    return error.response.data.message;
+  }
+  return "Internal error";
 };
 
 const handleAddImage = (currentPhotobookImages, imageToAdd) => {
@@ -94,7 +108,7 @@ const fetchPropertyForContact = (token, id, property) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
 };
 
@@ -108,6 +122,6 @@ const updatePropertyForContact = (token, id, property) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    },
+    }
   );
 };

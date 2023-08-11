@@ -18,12 +18,14 @@ const RemoveImageInputs = ({ photobookImages, runServerless, refresh }) => {
         name: "updateContact",
         parameters: { imageToRemove },
         propertiesToSend: ["hs_object_id"],
-      }).then(({ response: succeeded }) => {
+      }).then(({ response }) => {
+        const { success, error } = response;
+
         setRemoveImageLoading(false);
-        if (succeeded) {
+        if (success) {
           refresh();
         } else {
-          setRemoveImageError(true);
+          setRemoveImageError(error);
         }
       });
     }
@@ -35,8 +37,12 @@ const RemoveImageInputs = ({ photobookImages, runServerless, refresh }) => {
         <Select
           label="Remove an image"
           description="Select an image to remove from the carousel"
-          error={removeImageError}
-          validationMessage={removeImageError ? "Failed to remove image" : null}
+          error={!!removeImageError}
+          validationMessage={
+            removeImageError
+              ? `Failed to remove image: ${removeImageError}`
+              : null
+          }
           value={imageToRemove}
           onChange={(value) => {
             setImageToRemove(value);
